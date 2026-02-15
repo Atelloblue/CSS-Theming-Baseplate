@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern UI Style Guide - High Contrast Pro</title>
+    <title>High Contrast Pro - Modern UI Design System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- 1. CSS VARIABLES & THEME SETUP --- */
+        /* --- CSS VARIABLES & THEME SETUP --- */
         :root {
             --ease-material: cubic-bezier(0.4, 0.0, 0.2, 1);
             
+            /* Light Mode */
             --bg-body: #f1f3f4;
             --bg-surface: #ffffff; 
             --bg-surface-hover: #e8eaed;
@@ -21,220 +22,1527 @@
             --border-color: #dadce0;
             --border-radius: 16px;
             --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            
+            /* Semantic Colors - Light */
+            --success: #188038;
+            --success-hover: #0d652d;
+            --success-bg: rgba(24, 128, 56, 0.1);
+            --success-text: #ffffff;
+            
+            --warning: #e37400;
+            --warning-hover: #b85c00;
+            --warning-bg: rgba(227, 116, 0, 0.1);
+            --warning-text: #ffffff;
+            
+            --error: #c5221f;
+            --error-hover: #a50e0e;
+            --error-bg: rgba(197, 34, 31, 0.1);
+            --error-text: #ffffff;
+            
+            --info: #0b57d0;
+            --info-hover: #0842a0;
+            --info-bg: rgba(11, 87, 208, 0.1);
+            --info-text: #ffffff;
         }
 
         body.dark-mode {
-            --bg-body: #0a0a0b;        /* Deeper midnight black */
-            --bg-surface: #161618;     /* Slightly lighter card surface */
+            /* Dark Mode */
+            --bg-body: #0a0a0b;
+            --bg-surface: #161618;
             --bg-surface-hover: #222225;
-            --text-primary: #ffffff;   /* Pure white for max contrast */
-            --text-secondary: #a1a1aa; /* Silver for secondary info */
-            --accent-color: #70a1ff;   /* Electric blue */
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent-color: #70a1ff;
             --accent-hover: #8ab4f8;
             --accent-text: #000000;
-            --border-color: #2d2d30;   /* Sharper borders */
+            --border-color: #2d2d30;
             --shadow: 0 10px 30px rgba(0,0,0,0.6);
+            
+            /* Semantic Colors - Dark */
+            --success: #5bb974;
+            --success-hover: #81c995;
+            --success-bg: rgba(91, 185, 116, 0.15);
+            --success-text: #000000;
+            
+            --warning: #ffa726;
+            --warning-hover: #ffb74d;
+            --warning-bg: rgba(255, 167, 38, 0.15);
+            --warning-text: #000000;
+            
+            --error: #f28b82;
+            --error-hover: #f6aea9;
+            --error-bg: rgba(242, 139, 130, 0.15);
+            --error-text: #000000;
+            
+            --info: #70a1ff;
+            --info-hover: #8ab4f8;
+            --info-bg: rgba(112, 161, 255, 0.15);
+            --info-text: #000000;
         }
 
-        /* --- 2. GLOBAL STYLES --- */
-        * { box-sizing: border-box; transition: background-color 0.4s var(--ease-material), color 0.4s var(--ease-material), border-color 0.4s; }
+        /* --- GLOBAL STYLES --- */
+        * { 
+            box-sizing: border-box; 
+            transition: background-color 0.4s var(--ease-material), color 0.4s var(--ease-material), border-color 0.4s; 
+        }
         
         body {
             margin: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-primary);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
             overflow-x: hidden;
         }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            display: grid;
-            gap: 2rem;
-            animation: slideUpFade 0.8s var(--ease-material) forwards;
-            opacity: 0;
-            transform: translateY(20px);
+        /* --- ANIMATIONS --- */
+        @keyframes slideUpFade { 
+            from { opacity: 0; transform: translateY(40px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes shimmer { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(100%); } 
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        @keyframes pulse { 
+            0% { transform: scale(0.95); opacity: 0.7; } 
+            50% { transform: scale(1); opacity: 1; } 
+            100% { transform: scale(0.95); opacity: 0.7; } 
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(112, 161, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(112, 161, 255, 0.6); }
         }
 
-        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
-        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
-
-        /* --- 4. UI COMPONENTS --- */
-        h1 { font-size: 2.5rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; font-weight: 800; }
-        h3 { margin-top: 0; font-weight: 700; }
-        p.subtitle { color: var(--text-secondary); margin-top: 0; font-size: 1.1rem; }
-
-        .card {
-            background-color: var(--bg-surface);
-            padding: 2.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
             position: relative;
             overflow: hidden;
         }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-        .stat-item { 
-            padding: 1.5rem; 
-            background: var(--bg-surface); 
-            border-radius: var(--border-radius); 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+            opacity: 0.08;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: slideUpFade 1s var(--ease-material) forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin: 0 0 3rem 0;
+            font-weight: 500;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .badge-accent {
+            background: var(--accent-color);
+            color: var(--accent-text);
+            border-color: var(--accent-color);
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: var(--success-text);
+            border-color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: var(--warning-text);
+            border-color: var(--warning);
+        }
+
+        .badge-error {
+            background: var(--error);
+            color: var(--error-text);
+            border-color: var(--error);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s var(--ease-material);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--accent-text);
+            box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        body.dark-mode .btn-primary {
+            box-shadow: 0 4px 20px rgba(112, 161, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--success-text);
+            box-shadow: 0 4px 12px rgba(24, 128, 56, 0.3);
+        }
+
+        .btn-success:hover {
+            background: var(--success-hover);
+        }
+
+        body.dark-mode .btn-success {
+            box-shadow: 0 4px 20px rgba(91, 185, 116, 0.4);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--warning-text);
+            box-shadow: 0 4px 12px rgba(227, 116, 0, 0.3);
+        }
+
+        .btn-warning:hover {
+            background: var(--warning-hover);
+        }
+
+        body.dark-mode .btn-warning {
+            box-shadow: 0 4px 20px rgba(255, 167, 38, 0.4);
+        }
+
+        .btn-error {
+            background: var(--error);
+            color: var(--error-text);
+            box-shadow: 0 4px 12px rgba(197, 34, 31, 0.3);
+        }
+
+        .btn-error:hover {
+            background: var(--error-hover);
+        }
+
+        body.dark-mode .btn-error {
+            box-shadow: 0 4px 20px rgba(242, 139, 130, 0.4);
+        }
+
+        .btn-small {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- SECTIONS --- */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* --- FEATURE GRID --- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s var(--ease-material);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode .feature-card:hover {
+            animation: glow 2s infinite;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            color: var(--accent-text);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(112, 161, 255, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* --- COMPONENT SHOWCASE --- */
+        .showcase-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .showcase-item {
+            background: var(--bg-surface);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .showcase-item h3 {
+            margin-top: 0;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        /* --- STATS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: var(--bg-surface);
+            border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s var(--ease-material);
         }
-        .stat-value { display: block; font-size: 2rem; font-weight: 800; color: var(--accent-color); }
-        .stat-label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 
-        .data-table-container { width: 100%; overflow-x: auto; margin-top: 1rem; }
-        .data-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .data-table th { padding: 12px; font-size: 0.8rem; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); font-weight: 700; text-transform: uppercase; }
-        .data-table td { padding: 16px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
-        .data-table tr:hover td { background-color: var(--bg-surface-hover); }
+        .stat-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+        }
 
-        .tabs { display: flex; gap: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
-        .tab { padding: 0.75rem 0.25rem; cursor: pointer; color: var(--text-secondary); font-weight: 600; border-bottom: 3px solid transparent; transition: 0.2s; }
-        .tab.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .stat-value {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
 
-        .form-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
-        label { font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); }
-        input { padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-body); color: var(--text-primary); font-size: 1rem; outline: none; }
-        input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(112, 161, 255, 0.2); }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
 
-        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
-        button { padding: 0.8rem 1.8rem; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: transform 0.2s, opacity 0.2s; }
-        button:active { transform: scale(0.96); }
-        .btn-primary { background-color: var(--accent-color); color: var(--accent-text); }
-        .btn-secondary { background-color: transparent; border: 2px solid var(--border-color); color: var(--text-primary); }
-        
-        .badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: var(--bg-surface-hover); color: var(--text-primary); }
-        .badge-accent { background: var(--accent-color); color: var(--accent-text); }
+        /* --- TABLE --- */
+        .data-table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
 
-        .loader-ring { width: 40px; height: 40px; border: 4px solid var(--bg-surface-hover); border-top: 4px solid var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
-        .loader-bar { height: 6px; width: 100%; background: var(--bg-surface-hover); border-radius: 10px; overflow: hidden; position: relative; }
-        .loader-bar::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 40%; background: var(--accent-color); animation: shimmer 1.5s infinite linear; }
-        
-        .skeleton { background: var(--bg-surface-hover); height: 20px; border-radius: 4px; margin-bottom: 0.8rem; position: relative; overflow: hidden; }
-        .skeleton::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: shimmer 1.5s infinite; }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
 
-        .swatch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; }
-        .swatch { height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--border-color); }
+        .data-table th {
+            padding: 16px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: var(--bg-surface-hover);
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-        .theme-switch {
-            position: fixed; top: 20px; right: 20px;
+        .data-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:hover td {
+            background-color: var(--bg-surface-hover);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* --- TABS --- */
+        .tabs {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 700;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .tab:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- FORMS --- */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        input, textarea, select {
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.3s var(--ease-material);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(112, 161, 255, 0.2);
+        }
+
+        input:hover, textarea:hover, select:hover {
+            border-color: var(--accent-hover);
+        }
+
+        /* --- CHECKBOX & RADIO --- */
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .checkbox-item:hover, .radio-item:hover {
+            background: var(--bg-surface-hover);
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+
+        /* --- SWITCH TOGGLE --- */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .slider {
+            background: var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- PROGRESS BAR --- */
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar {
+            height: 14px;
+            width: 100%;
+            background: var(--bg-surface-hover);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 8px;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* --- LOADERS --- */
+        .loader-ring {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--bg-surface-hover);
+            border-top: 5px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-bar {
+            height: 10px;
+            width: 100%;
+            background: var(--bg-surface-hover);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 40%;
+            background: var(--accent-color);
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        .skeleton {
+            background: var(--bg-surface-hover);
+            height: 20px;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .skeleton::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(112, 161, 255, 0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* --- ALERTS --- */
+        .alert {
+            padding: 1.2rem 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 2px solid;
+            font-weight: 500;
+        }
+
+        .alert i {
+            font-size: 1.5rem;
+        }
+
+        .alert-info {
+            background: var(--info-bg);
+            border-color: var(--info);
+            color: var(--text-primary);
+        }
+
+        .alert-info i {
+            color: var(--info);
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+            border-color: var(--success);
+            color: var(--text-primary);
+        }
+
+        .alert-success i {
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: var(--warning-bg);
+            border-color: var(--warning);
+            color: var(--text-primary);
+        }
+
+        .alert-warning i {
+            color: var(--warning);
+        }
+
+        .alert-error {
+            background: var(--error-bg);
+            border-color: var(--error);
+            color: var(--text-primary);
+        }
+
+        .alert-error i {
+            color: var(--error);
+        }
+
+        /* --- TOOLTIPS --- */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--bg-surface);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 12px;
+            padding: 10px 14px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            font-weight: 600;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- BREADCRUMBS --- */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: var(--bg-surface-hover);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .breadcrumb-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-item:hover {
+            color: var(--accent-color);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* --- PAGINATION --- */
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .page-item {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: var(--bg-surface);
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; cursor: pointer;
-            box-shadow: var(--shadow); z-index: 100;
-            font-size: 1.4rem; border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .page-item:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .page-item.active {
+            background: var(--accent-color);
+            color: var(--accent-text);
+            border-color: var(--accent-color);
+        }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-surface);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            animation: slideUpFade 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            color: var(--text-secondary);
+            width: 30px;
+            height: 30px;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--error);
+        }
+
+        /* --- DROPDOWN --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            min-width: 200px;
+            margin-top: 0.5rem;
+            z-index: 100;
+            animation: slideUpFade 0.2s;
+            overflow: hidden;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg-surface-hover);
+            color: var(--accent-color);
+            padding-left: 1.5rem;
+        }
+
+        /* --- COLOR SWATCHES --- */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .swatch {
+            height: 140px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            gap: 0.5rem;
+        }
+
+        .swatch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .swatch-label {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+        }
+
+        /* --- THEME TOGGLE --- */
+        .theme-switch {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--bg-surface);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            font-size: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .theme-switch:hover {
+            transform: scale(1.1) rotate(15deg);
+            border-color: var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .section {
+                padding: 3rem 1.5rem;
+            }
+            .theme-switch {
+                width: 50px;
+                height: 50px;
+                top: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body class="dark-mode">
 
+    <!-- THEME TOGGLE -->
     <div class="theme-switch" onclick="toggleTheme()" title="Toggle Theme">
         <i id="theme-icon" class="fa-solid fa-sun"></i>
     </div>
 
-    <div class="container">
-        
-        <header>
-            <h1>Dashboard</h1>
-            <p class="subtitle">A theming pallet.</p>
-        </header>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>High Contrast Pro</h1>
+            <p class="subtitle">A modern UI design system with stunning dark mode and accessibility-first components</p>
+            
+            <div class="hero-badges">
+                <span class="badge">
+                    <i class="fa-solid fa-palette"></i>
+                    Dual Theme
+                </span>
+                <span class="badge">
+                    <i class="fa-solid fa-universal-access"></i>
+                    WCAG AAA
+                </span>
+                <span class="badge badge-accent">
+                    <i class="fa-solid fa-bolt"></i>
+                    Production Ready
+                </span>
+            </div>
 
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-label">Active Users</span>
-                <span class="stat-value">12,842</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Revenue</span>
-                <span class="stat-value">$42.5k</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">System Load</span>
-                <span class="stat-value">14.2%</span>
+            <div class="cta-buttons">
+                <button class="btn-primary" onclick="scrollToSection('components')">
+                    <i class="fa-solid fa-rocket"></i> View Components
+                </button>
+                <button class="btn-secondary" onclick="scrollToSection('features')">
+                    Learn More
+                </button>
             </div>
         </div>
+    </section>
 
-        <section class="card">
-            <h3>Recent Transactions</h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Customer</th><th>Service</th><th>Status</th><th>Amount</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Alex Johnson</td><td>Premium Plan</td><td><span class="badge badge-accent">Completed</span></td><td>$199.00</td></tr>
-                        <tr><td>Maria Garcia</td><td>Basic Support</td><td><span class="badge">Processing</span></td><td>$49.00</td></tr>
-                        <tr><td>James Wilson</td><td>Custom Dev</td><td><span class="badge badge-accent">Completed</span></td><td>$1,200.00</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+    <!-- FEATURES SECTION -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2>Built for Modern Interfaces</h2>
+            <p>Everything you need to create professional, accessible applications</p>
+        </div>
 
-        <section class="card">
-            <h3>Navigation & Tabs</h3>
-            <div class="tabs">
-                <div class="tab active">Overview</div>
-                <div class="tab">Settings</div>
-                <div class="tab">Analytics</div>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <h3>Dark Mode First</h3>
+                <p>Deep blacks with electric blue accents create stunning high-contrast interfaces that reduce eye strain and look incredible.</p>
             </div>
-            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                <span class="badge">Draft</span>
-                <span class="badge badge-accent">v2.0.4-Stable</span>
-            </div>
-        </section>
 
-        <section class="card">
-            <h3>Form Elements</h3>
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" placeholder="Search or enter name...">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>Smooth Animations</h3>
+                <p>Material Design easing curves and fluid transitions bring your interface to life with professional polish.</p>
             </div>
-            <div class="btn-group">
-                <button class="btn-primary">Apply Changes</button>
-                <button class="btn-secondary">Cancel</button>
-            </div>
-        </section>
 
-        <section class="card">
-            <h3 style="margin-top: 0;">Loading States</h3>
-            <div style="display: flex; align-items: center; gap: 2rem; margin: 1.5rem 0;">
-                <div class="loader-ring"></div>
-                <div style="width: 20px; height: 20px; background: var(--accent-color); border-radius: 50%; animation: pulse 1s infinite;"></div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-puzzle-piece"></i>
+                </div>
+                <h3>Complete Components</h3>
+                <p>Tables, forms, loaders, tabs, badges, and more—every component you need to build a full application.</p>
             </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </div>
+                <h3>Fully Responsive</h3>
+                <p>Looks perfect on every device with thoughtful breakpoints and flexible layouts that adapt seamlessly.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3>CSS Variables</h3>
+                <p>Customize every color and spacing value instantly with modern CSS custom properties for rapid theming.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </div>
+                <h3>Performance Optimized</h3>
+                <p>Lightweight, efficient animations and minimal dependencies ensure blazing-fast load times and smooth interactions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPONENTS SHOWCASE -->
+    <section class="section" id="components" style="background: var(--bg-body);">
+        <div class="section-header">
+            <h2>Component Library</h2>
+            <p>Beautiful, functional elements ready to use</p>
+        </div>
+
+        <div class="showcase-grid">
             
-            <p style="font-size: 0.85rem; margin-bottom: 0.8rem; font-weight: 700;">Optimizing Database...</p>
-            <div class="loader-bar"></div>
-            
-            <div style="margin-top: 1.5rem;">
-                <div class="skeleton" style="width: 40%;"></div>
-                <div class="skeleton" style="width: 90%;"></div>
+            <!-- STATS -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-chart-line"></i> Statistics Cards</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Active Users</span>
+                        <span class="stat-value">12,842</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Revenue</span>
+                        <span class="stat-value">$42.5k</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">System Load</span>
+                        <span class="stat-value">14.2%</span>
+                    </div>
+                </div>
             </div>
-        </section>
 
-        <section>
-            <h3>Contrast Swatches</h3>
-            <div class="swatch-grid">
-                <div class="swatch" style="background: var(--bg-surface); color: var(--text-primary);">Surface</div>
-                <div class="swatch" style="background: var(--bg-body); color: var(--text-primary);">Body</div>
-                <div class="swatch" style="background: var(--accent-color); color: var(--accent-text);">Accent</div>
-                <div class="swatch" style="background: var(--text-primary); color: var(--bg-body);">Primary</div>
+            <!-- BUTTONS -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-hand-pointer"></i> Buttons & Actions</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <button class="btn-primary">Primary</button>
+                    <button class="btn-secondary">Secondary</button>
+                    <button class="btn-success">Success</button>
+                    <button class="btn-warning">Warning</button>
+                    <button class="btn-error">Error</button>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn-primary btn-small"><i class="fa-solid fa-download"></i> Download</button>
+                    <button class="btn-secondary btn-small"><i class="fa-solid fa-share"></i> Share</button>
+                    <button class="btn-success btn-small"><i class="fa-solid fa-check"></i> Confirm</button>
+                </div>
             </div>
-        </section>
 
+            <!-- ALERTS -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-bell"></i> Alert Messages</h3>
+                <div class="alert alert-info">
+                    <i class="fa-solid fa-info-circle"></i>
+                    <div>
+                        <strong>Info:</strong> Your profile has been updated successfully.
+                    </div>
+                </div>
+                <div class="alert alert-success">
+                    <i class="fa-solid fa-check-circle"></i>
+                    <div>
+                        <strong>Success:</strong> Payment processed successfully!
+                    </div>
+                </div>
+                <div class="alert alert-warning">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Warning:</strong> Your session will expire in 5 minutes.
+                    </div>
+                </div>
+                <div class="alert alert-error">
+                    <i class="fa-solid fa-times-circle"></i>
+                    <div>
+                        <strong>Error:</strong> Failed to connect to server.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-table"></i> Data Tables</h3>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alex Johnson</td>
+                                <td>Premium Plan</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>$199.00</td>
+                            </tr>
+                            <tr>
+                                <td>Maria Garcia</td>
+                                <td>Basic Support</td>
+                                <td><span class="badge badge-warning">Processing</span></td>
+                                <td>$49.00</td>
+                            </tr>
+                            <tr>
+                                <td>James Wilson</td>
+                                <td>Custom Dev</td>
+                                <td><span class="badge badge-accent">Completed</span></td>
+                                <td>$1,200.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TABS & BADGES -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-layer-group"></i> Tabs & Badges</h3>
+                <div class="tabs">
+                    <div class="tab active">Overview</div>
+                    <div class="tab">Settings</div>
+                    <div class="tab">Analytics</div>
+                    <div class="tab">Reports</div>
+                </div>
+                <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <span class="badge"><i class="fa-solid fa-file"></i> Draft</span>
+                    <span class="badge badge-accent"><i class="fa-solid fa-check"></i> v2.0.4-Stable</span>
+                    <span class="badge badge-success"><i class="fa-solid fa-star"></i> Featured</span>
+                    <span class="badge badge-warning"><i class="fa-solid fa-crown"></i> Premium</span>
+                    <span class="badge badge-error"><i class="fa-solid fa-fire"></i> Hot</span>
+                </div>
+            </div>
+
+            <!-- FORMS -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-keyboard"></i> Form Elements</h3>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="select">Choose Option</label>
+                    <select id="select">
+                        <option>Select an option...</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Enter your message..."></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn-primary">Submit Form</button>
+                    <button class="btn-secondary">Reset</button>
+                </div>
+            </div>
+
+            <!-- CHECKBOX & RADIO & TOGGLE -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-square-check"></i> Checkboxes, Radio & Toggle</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                    <div>
+                        <p style="font-weight: 700; margin-bottom: 1rem;">Checkboxes</p>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" checked>
+                                <span>Subscribe to newsletter</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox">
+                                <span>Enable notifications</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox">
+                                <span>Terms & Conditions</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="font-weight: 700; margin-bottom: 1rem;">Radio Buttons</p>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="plan" checked>
+                                <span>Free Plan</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="plan">
+                                <span>Pro Plan</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="plan">
+                                <span>Enterprise</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="font-weight: 700; margin-bottom: 1rem;">Toggle Switch</p>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">Enable dark mode</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROGRESS BARS -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-tasks"></i> Progress Indicators</h3>
+                <div class="progress-container">
+                    <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem;">Project Completion: 75%</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem;">Storage Used: 45%</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%; background: var(--success);"></div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem;">CPU Usage: 92%</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 92%; background: var(--error);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOADING STATES -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-spinner"></i> Loading States</h3>
+                <div style="display: flex; align-items: center; gap: 3rem; margin: 2rem 0; flex-wrap: wrap;">
+                    <div class="loader-ring"></div>
+                    <div style="width: 30px; height: 30px; background: var(--accent-color); border-radius: 50%; animation: pulse 1s infinite;"></div>
+                    <div style="width: 30px; height: 30px; background: var(--success); border-radius: 50%; animation: pulse 1s infinite;"></div>
+                </div>
+                
+                <p style="font-size: 0.9rem; margin-bottom: 0.8rem; font-weight: 700; color: var(--text-secondary);">
+                    <i class="fa-solid fa-database"></i> Optimizing Database...
+                </p>
+                <div class="loader-bar"></div>
+                
+                <div style="margin-top: 2rem;">
+                    <div class="skeleton" style="width: 60%;"></div>
+                    <div class="skeleton" style="width: 100%;"></div>
+                    <div class="skeleton" style="width: 85%;"></div>
+                </div>
+            </div>
+
+            <!-- BREADCRUMBS & PAGINATION -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-map-signs"></i> Navigation Elements</h3>
+                <div style="margin-bottom: 2rem;">
+                    <p style="font-weight: 700; margin-bottom: 0.5rem; font-size: 0.9rem;">Breadcrumbs</p>
+                    <div class="breadcrumb">
+                        <a href="#" class="breadcrumb-item">Home</a>
+                        <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary); font-size: 0.7rem;"></i>
+                        <a href="#" class="breadcrumb-item">Products</a>
+                        <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary); font-size: 0.7rem;"></i>
+                        <span class="breadcrumb-item active">Electronics</span>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 700; margin-bottom: 1rem; font-size: 0.9rem;">Pagination</p>
+                    <div class="pagination">
+                        <div class="page-item"><i class="fa-solid fa-chevron-left"></i></div>
+                        <div class="page-item active">1</div>
+                        <div class="page-item">2</div>
+                        <div class="page-item">3</div>
+                        <div class="page-item">4</div>
+                        <div class="page-item">5</div>
+                        <div class="page-item"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOOLTIPS & DROPDOWN -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-comment-dots"></i> Tooltips & Dropdowns</h3>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+                    <div class="tooltip">
+                        <button class="btn-primary btn-small">Hover for tooltip</button>
+                        <span class="tooltiptext">This is a helpful tooltip message!</span>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn-secondary btn-small" onclick="toggleDropdown()">
+                            Open Menu <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-item"><i class="fa-solid fa-user"></i> Profile</div>
+                            <div class="dropdown-item"><i class="fa-solid fa-cog"></i> Settings</div>
+                            <div class="dropdown-item"><i class="fa-solid fa-question-circle"></i> Help</div>
+                            <div class="dropdown-item"><i class="fa-solid fa-sign-out-alt"></i> Logout</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary btn-small" onclick="openModal()">
+                        <i class="fa-solid fa-window-restore"></i> Open Modal
+                    </button>
+                </div>
+            </div>
+
+            <!-- COLOR SWATCHES -->
+            <div class="showcase-item">
+                <h3><i class="fa-solid fa-droplet"></i> Color System</h3>
+                <div class="swatch-grid">
+                    <div class="swatch" style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        <div class="swatch-label">Surface</div>
+                    </div>
+                    <div class="swatch" style="background: var(--bg-body); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        <div class="swatch-label">Body</div>
+                    </div>
+                    <div class="swatch" style="background: var(--accent-color); color: var(--accent-text);">
+                        <div class="swatch-label">Accent</div>
+                    </div>
+                    <div class="swatch" style="background: var(--text-primary); color: var(--bg-body);">
+                        <div class="swatch-label">Primary</div>
+                    </div>
+                    <div class="swatch" style="background: var(--success); color: var(--success-text);">
+                        <div class="swatch-label">Success</div>
+                    </div>
+                    <div class="swatch" style="background: var(--warning); color: var(--warning-text);">
+                        <div class="swatch-label">Warning</div>
+                    </div>
+                    <div class="swatch" style="background: var(--error); color: var(--error-text);">
+                        <div class="swatch-label">Error</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOutside(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Modal Title</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <p>This is a modal dialog with smooth animations. Click outside or press the X to close.</p>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button class="btn-primary" onclick="closeModal()">Confirm</button>
+                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
     </div>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p><strong>High Contrast Pro</strong> — A modern design system for accessible, beautiful interfaces</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">
+            <i class="fa-solid fa-code"></i> Built with CSS Variables, Font Awesome & Material Design principles
+        </p>
+    </footer>
+
     <script>
+        // Theme Toggle
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
@@ -260,12 +1568,47 @@
             document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
         }
 
-        // Tab selection logic
+        // Tab selection
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 tab.parentElement.querySelector('.active').classList.remove('active');
                 tab.classList.add('active');
             });
+        });
+
+        // Smooth scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        function closeModalOnOutside(event) {
+            if (event.target.id === 'modalOverlay') {
+                closeModal();
+            }
+        }
+
+        // Dropdown functions
+        function toggleDropdown() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.btn-secondary')) {
+                const dropdown = document.getElementById('dropdownMenu');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
         });
     </script>
 </body>
