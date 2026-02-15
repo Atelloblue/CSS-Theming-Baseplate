@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern UI Style Guide - High Contrast Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- 1. CSS VARIABLES & THEME SETUP --- */
+        :root {
+            --ease-material: cubic-bezier(0.4, 0.0, 0.2, 1);
+            
+            --bg-body: #f1f3f4;
+            --bg-surface: #ffffff; 
+            --bg-surface-hover: #e8eaed;
+            --text-primary: #111111;
+            --text-secondary: #444746;
+            --accent-color: #0b57d0; 
+            --accent-hover: #0842a0;
+            --accent-text: #ffffff;
+            --border-color: #dadce0;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        body.dark-mode {
+            --bg-body: #0a0a0b;        /* Deeper midnight black */
+            --bg-surface: #161618;     /* Slightly lighter card surface */
+            --bg-surface-hover: #222225;
+            --text-primary: #ffffff;   /* Pure white for max contrast */
+            --text-secondary: #a1a1aa; /* Silver for secondary info */
+            --accent-color: #70a1ff;   /* Electric blue */
+            --accent-hover: #8ab4f8;
+            --accent-text: #000000;
+            --border-color: #2d2d30;   /* Sharper borders */
+            --shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        /* --- 2. GLOBAL STYLES --- */
+        * { box-sizing: border-box; transition: background-color 0.4s var(--ease-material), color 0.4s var(--ease-material), border-color 0.4s; }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            gap: 2rem;
+            animation: slideUpFade 0.8s var(--ease-material) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
+
+        /* --- 4. UI COMPONENTS --- */
+        h1 { font-size: 2.5rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; font-weight: 800; }
+        h3 { margin-top: 0; font-weight: 700; }
+        p.subtitle { color: var(--text-secondary); margin-top: 0; font-size: 1.1rem; }
+
+        .card {
+            background-color: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .stat-item { 
+            padding: 1.5rem; 
+            background: var(--bg-surface); 
+            border-radius: var(--border-radius); 
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .stat-value { display: block; font-size: 2rem; font-weight: 800; color: var(--accent-color); }
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        .data-table-container { width: 100%; overflow-x: auto; margin-top: 1rem; }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .data-table th { padding: 12px; font-size: 0.8rem; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); font-weight: 700; text-transform: uppercase; }
+        .data-table td { padding: 16px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
+        .data-table tr:hover td { background-color: var(--bg-surface-hover); }
+
+        .tabs { display: flex; gap: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+        .tab { padding: 0.75rem 0.25rem; cursor: pointer; color: var(--text-secondary); font-weight: 600; border-bottom: 3px solid transparent; transition: 0.2s; }
+        .tab.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
+        label { font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); }
+        input { padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-body); color: var(--text-primary); font-size: 1rem; outline: none; }
+        input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(112, 161, 255, 0.2); }
+
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        button { padding: 0.8rem 1.8rem; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: transform 0.2s, opacity 0.2s; }
+        button:active { transform: scale(0.96); }
+        .btn-primary { background-color: var(--accent-color); color: var(--accent-text); }
+        .btn-secondary { background-color: transparent; border: 2px solid var(--border-color); color: var(--text-primary); }
+        
+        .badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: var(--bg-surface-hover); color: var(--text-primary); }
+        .badge-accent { background: var(--accent-color); color: var(--accent-text); }
+
+        .loader-ring { width: 40px; height: 40px; border: 4px solid var(--bg-surface-hover); border-top: 4px solid var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        .loader-bar { height: 6px; width: 100%; background: var(--bg-surface-hover); border-radius: 10px; overflow: hidden; position: relative; }
+        .loader-bar::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 40%; background: var(--accent-color); animation: shimmer 1.5s infinite linear; }
+        
+        .skeleton { background: var(--bg-surface-hover); height: 20px; border-radius: 4px; margin-bottom: 0.8rem; position: relative; overflow: hidden; }
+        .skeleton::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: shimmer 1.5s infinite; }
+
+        .swatch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; }
+        .swatch { height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid var(--border-color); }
+
+        .theme-switch {
+            position: fixed; top: 20px; right: 20px;
+            background: var(--bg-surface);
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; cursor: pointer;
+            box-shadow: var(--shadow); z-index: 100;
+            font-size: 1.4rem; border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div class="theme-switch" onclick="toggleTheme()" title="Toggle Theme">
+        <i id="theme-icon" class="fa-solid fa-sun"></i>
+    </div>
+
+    <div class="container">
+        
+        <header>
+            <h1>Dashboard</h1>
+            <p class="subtitle">A theming pallet.</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-label">Active Users</span>
+                <span class="stat-value">12,842</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Revenue</span>
+                <span class="stat-value">$42.5k</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">System Load</span>
+                <span class="stat-value">14.2%</span>
+            </div>
+        </div>
+
+        <section class="card">
+            <h3>Recent Transactions</h3>
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Customer</th><th>Service</th><th>Status</th><th>Amount</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Alex Johnson</td><td>Premium Plan</td><td><span class="badge badge-accent">Completed</span></td><td>$199.00</td></tr>
+                        <tr><td>Maria Garcia</td><td>Basic Support</td><td><span class="badge">Processing</span></td><td>$49.00</td></tr>
+                        <tr><td>James Wilson</td><td>Custom Dev</td><td><span class="badge badge-accent">Completed</span></td><td>$1,200.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3>Navigation & Tabs</h3>
+            <div class="tabs">
+                <div class="tab active">Overview</div>
+                <div class="tab">Settings</div>
+                <div class="tab">Analytics</div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <span class="badge">Draft</span>
+                <span class="badge badge-accent">v2.0.4-Stable</span>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3>Form Elements</h3>
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Search or enter name...">
+            </div>
+            <div class="btn-group">
+                <button class="btn-primary">Apply Changes</button>
+                <button class="btn-secondary">Cancel</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 style="margin-top: 0;">Loading States</h3>
+            <div style="display: flex; align-items: center; gap: 2rem; margin: 1.5rem 0;">
+                <div class="loader-ring"></div>
+                <div style="width: 20px; height: 20px; background: var(--accent-color); border-radius: 50%; animation: pulse 1s infinite;"></div>
+            </div>
+            
+            <p style="font-size: 0.85rem; margin-bottom: 0.8rem; font-weight: 700;">Optimizing Database...</p>
+            <div class="loader-bar"></div>
+            
+            <div style="margin-top: 1.5rem;">
+                <div class="skeleton" style="width: 40%;"></div>
+                <div class="skeleton" style="width: 90%;"></div>
+            </div>
+        </section>
+
+        <section>
+            <h3>Contrast Swatches</h3>
+            <div class="swatch-grid">
+                <div class="swatch" style="background: var(--bg-surface); color: var(--text-primary);">Surface</div>
+                <div class="swatch" style="background: var(--bg-body); color: var(--text-primary);">Body</div>
+                <div class="swatch" style="background: var(--accent-color); color: var(--accent-text);">Accent</div>
+                <div class="swatch" style="background: var(--text-primary); color: var(--bg-body);">Primary</div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            
+            if (isDark) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
+        }
+
+        // Tab selection logic
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                tab.parentElement.querySelector('.active').classList.remove('active');
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
